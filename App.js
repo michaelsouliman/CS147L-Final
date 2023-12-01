@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateGroupScreen from "./CreateGroupScreen";
 import JoinSessionScreen from "./JoinSessionScreen";
-import PreferencesSelection from "./NameAdditionPage";
+import NameAdditionPage from "./NameAdditionPage";
 import { Button, View } from "react-native";
 import { createClient } from "@supabase/supabase-js";
 import "react-native-url-polyfill/auto";
@@ -38,7 +38,7 @@ const App = () => {
         <Stack.Screen
           name="NameAdditionPage"
           component={NameAdditionPage}
-          options={{ title: "Select Preferences" }}
+          options={{ title: "Add Your Profile" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
