@@ -4,12 +4,20 @@
 // the group leader starts the session (by subscribing to a column in Supabase
 // that tells the app if the group that the user is actively in is live).
 
+import { useLocalSearchParams, Stack, router } from "expo-router";
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 
-const NameAdditionPage = (group_name) => {
+const NameAdditionPage = () => {
+  const params = useLocalSearchParams();
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: params.group_name,
+        }}
+      />
       <Text> To add name addition functionality here.</Text>
       {/* Add your preference selection UI components here */}
     </View>

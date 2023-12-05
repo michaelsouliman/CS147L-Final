@@ -1,13 +1,14 @@
+import { useLocalSearchParams, Stack, router } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert } from "react-native";
-import { supabase } from "./App";
+import { supabase } from "./index";
 
-const JoinSessionScreen = ({ navigation }) => {
+const JoinSessionScreen = () => {
+  const params = useLocalSearchParams();
   const [groupCode, setGroupCode] = useState("");
 
   const joinSession = async () => {
     try {
-      console.log(groupCode);
       const { data, error } = await supabase
         .from("groups")
         .select("*")
@@ -18,9 +19,9 @@ const JoinSessionScreen = ({ navigation }) => {
       }
 
       if (data.length > 0) {
-        navigation.navigate("NameAdditionPage", {
-          group_name: data.group_name,
-          group_members: data.group_members,
+        router.push({
+          pathname: "/NameAdditionPage",
+          params: { group_code: groupCode, group_name: data[0].group_name },
         });
       } else {
         Alert.alert("Invalid Group Code", "Please enter a valid group code.");
@@ -32,6 +33,12 @@ const JoinSessionScreen = ({ navigation }) => {
 
   return (
     <View>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: params.title,
+        }}
+      />
       <Text>Join a Session</Text>
       <TextInput
         placeholder="Group Code"
