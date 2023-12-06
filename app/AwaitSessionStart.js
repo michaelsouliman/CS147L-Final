@@ -80,7 +80,6 @@ const GroupMembersComponent = () => {
         pathname: "/SelectRestPage",
         params: {
           group_code: params.group_code,
-          group_name: params.group_name,
           id: params.id,
         },
       });

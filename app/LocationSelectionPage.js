@@ -73,7 +73,7 @@ const MapWithRadius = () => {
         params: {
           group_code: params.group_code,
           group_name: params.group_name,
-          leader_id: "0",
+          id: "0",
           latitude: center.latitude,
           longitude: center.longitude,
           radius: radius,

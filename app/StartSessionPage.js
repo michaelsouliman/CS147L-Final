@@ -28,11 +28,13 @@ const GroupMembersComponent = () => {
       }
 
       router.push({
-        pathname: "/SelectRestPage",
+        pathname: "/SelectRestPageLeader",
         params: {
           group_code: params.group_code,
-          group_name: params.group_name,
           id: params.id,
+          latitude: params.latitude,
+          longitude: params.longitude,
+          radius: params.radius,
         },
       });
     } catch (error) {
