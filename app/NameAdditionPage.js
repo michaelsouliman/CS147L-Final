@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Dimensions,
   Pressable,
+  Alert,
 } from "react-native";
 import { supabase } from "./index";
 

@@ -9,6 +9,7 @@ const GroupMembersComponent = () => {
   const params = useLocalSearchParams();
   const [groupMembers, setGroupMembers] = useState([]);
   const [sessionStarted, setSessionStarted] = useState(false);
+  const [locationInfo, setLocationInfo] = useState(null);
   const groupCode = params.group_code;
 
   const handleRecordUpdated = (payload) => {
@@ -78,6 +79,9 @@ const GroupMembersComponent = () => {
         params: {
           group_code: params.group_code,
           id: params.id,
+          latitude: locationInfo.latitude,
+          longitude: locationInfo.longitude,
+          radius: locationInfo.radius,
         },
       });
     }
@@ -90,7 +94,13 @@ const GroupMembersComponent = () => {
         .from("groups")
         .select("*")
         .textSearch("group_code", params.group_code);
+
       setGroupMembers(response.data[0].group_members);
+      setLocationInfo({
+        latitude: response.data[0].latitude,
+        longitude: response.data[0].longitude,
+        radius: response.data[0].radius,
+      });
     };
     fetchData();
   }, []);

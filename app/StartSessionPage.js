@@ -28,7 +28,7 @@ const GroupMembersComponent = () => {
       }
 
       router.push({
-        pathname: "/SelectRestPageLeader",
+        pathname: "/SelectRestPage",
         params: {
           group_code: params.group_code,
           id: params.id,
