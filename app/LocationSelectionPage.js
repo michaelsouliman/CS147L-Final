@@ -16,9 +16,9 @@ import { supabase } from "./index";
 const MapWithRadius = () => {
   const [region, setRegion] = useState(null);
   const [center, setCenter] = useState(null);
-  const [radius, setRadius] = useState(1000); // Default radius in meters
+  const [radius, setRadius] = useState(1000);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-  const [inputRadius, setInputRadius] = useState(""); // To store the radius input
+  const [inputRadius, setInputRadius] = useState("");
   const params = useLocalSearchParams();
 
   useEffect(() => {
@@ -44,7 +44,6 @@ const MapWithRadius = () => {
 
   const handleConfirmRadius = () => {
     setConfirmModalVisible(false);
-    // Any other action you want to perform with the selected center and radius
   };
 
   const handleConfirmMap = async () => {
@@ -53,9 +52,7 @@ const MapWithRadius = () => {
         {
           group_name: params.group_name,
           group_code: params.group_code,
-          group_members: [
-            { id: 0, name: params.leader_name, liked: [], disliked: [] },
-          ],
+          group_members: [{ id: 0, name: params.leader_name, liked: [] }],
           session_active: false,
           latitude: center.latitude,
           longitude: center.longitude,
@@ -79,8 +76,6 @@ const MapWithRadius = () => {
           radius: radius,
         },
       });
-
-      // Redirect to session screen or handle navigation as needed
     } catch (error) {
       console.error("Error creating group:", error.message);
     }

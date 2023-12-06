@@ -37,7 +37,6 @@ const NameAdditionPage = () => {
           id: data[0].group_members.length,
           name: name,
           liked: [],
-          disliked: [],
         };
 
         const updatedMembers = [...data[0].group_members, new_member];

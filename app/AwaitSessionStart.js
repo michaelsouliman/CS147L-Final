@@ -28,17 +28,14 @@ const GroupMembersComponent = () => {
         throw error;
       }
 
-      // Remove the member with the given id
       const updatedGroupMembers = data.group_members.filter(
         (member) => member.id.toString() !== params.id
       );
 
-      // Update the ids of the remaining members
       updatedGroupMembers.forEach((member, index) => {
         member.id = index;
       });
 
-      // Update the group members in the database
       const { error: updateError } = await supabase
         .from("groups")
         .update({ group_members: updatedGroupMembers })
