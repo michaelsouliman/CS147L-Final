@@ -7,7 +7,9 @@ import {
   Button,
   Dimensions,
   Pressable,
+  Image,
 } from "react-native";
+import { Icon } from "react-native-elements";
 import { supabase } from "./index";
 
 // Pulled from https://www.geodatasource.com/developers/javascript
@@ -62,7 +64,6 @@ export default function SelectRestPage() {
         id: restaurant.id,
         name: restaurant.name,
         address: restaurant.location.address1,
-        phone: restaurant.phone,
         rating: restaurant.rating,
         review_count: restaurant.review_count,
         categories: restaurant.categories
@@ -70,6 +71,7 @@ export default function SelectRestPage() {
           .join(", "),
         coordinates: restaurant.coordinates,
         image_url: restaurant.image_url,
+        price: restaurant.price,
       }));
       setRestList(formatted);
       setCurRest(0);
@@ -101,6 +103,8 @@ export default function SelectRestPage() {
         pathname: "/FinalSelectionPage",
         params: {
           group_code: params.group_code,
+          latitude: params.latitude,
+          longitude: params.longitude,
         },
       });
     }
@@ -127,7 +131,44 @@ export default function SelectRestPage() {
       setDisplayed(
         <View style={styles.container}>
           <View style={styles.restaurantInfoContainer}>
-            <Text>{restList[curRest].id}</Text>
+            <View style={styles.restaurantNameContainer}>
+              <Text style={styles.restaurantName}>
+                {restList[curRest].name}
+              </Text>
+            </View>
+            <View style={styles.restaurantRatingContainer}>
+              <Text style={styles.restaurantRating}>
+                {restList[curRest].rating}/5 ({restList[curRest].review_count})
+              </Text>
+            </View>
+            <View style={styles.restaurantCategoriesContainer}>
+              <Text style={styles.restaurantRating}>
+                {restList[curRest].categories}
+              </Text>
+            </View>
+            <View style={styles.restaurantDistanceContainer}>
+              <Text style={styles.restaurantDistance}>
+                {distance(
+                  params.latitude,
+                  params.longitude,
+                  restList[curRest].coordinates.latitude,
+                  restList[curRest].coordinates.longitude,
+                  "K"
+                ).toFixed(1)}{" "}
+                kilometers away
+              </Text>
+            </View>
+            <View style={styles.restaurantDistanceContainer}>
+              <Text style={styles.restaurantDistance}>
+                {restList[curRest].address}
+              </Text>
+            </View>
+            <View style={styles.restaurantDistanceContainer}>
+              <Image
+                style={styles.restaurantImage}
+                source={{ uri: restList[curRest].image_url }}
+              />
+            </View>
           </View>
           <View style={styles.userInputButtons}>
             <View style={styles.userLikeButton}>
@@ -135,7 +176,7 @@ export default function SelectRestPage() {
                 onPress={handleUserLike}
                 style={styles.buttonPressable}
               >
-                <Text style={styles.buttonText}>Like</Text>
+                <Icon style={styles.buttonIcon} size={90} name="check" />
               </Pressable>
             </View>
             <View style={styles.userDislikeButton}>
@@ -143,7 +184,7 @@ export default function SelectRestPage() {
                 onPress={handleUserDislike}
                 style={styles.buttonPressable}
               >
-                <Text style={styles.buttonText}> Dislike</Text>
+                <Icon style={styles.buttonIcon} size={90} name="close" />
               </Pressable>
             </View>
           </View>
@@ -200,28 +241,54 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#74a1b5",
   },
   restaurantInfoContainer: {
     margin: 10,
+    top: 20,
     backgroundColor: "orange",
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height * 0.7,
+    width: Dimensions.get("window").width * 0.9,
+    height: Dimensions.get("window").height * 0.65,
+    borderRadius: 20,
+    padding: 5,
   },
   userInputButtons: {
-    margin: 10,
-    backgroundColor: "orange",
+    top: 20,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height * 0.2,
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
   },
   userLikeButton: {
     backgroundColor: "green",
     width: "40%",
+    right: 10,
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  userDislikeButton: { backgroundColor: "red", width: "40%" },
-  buttonText: {},
+  userDislikeButton: {
+    backgroundColor: "red",
+    width: "40%",
+    left: 10,
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   buttonPressable: {
     width: "100%",
     height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonIcon: {
+    width: "70%",
+    aspectRatio: 1,
+  },
+  restaurantImage: {
+    width: "100%",
+    height: "70%",
   },
 });
