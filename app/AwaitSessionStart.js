@@ -1,7 +1,5 @@
-// This is a page the group leader will see where they can set the center
-// location and the radius for restaurant querying. Once everyone has joined,
-// they can start the session and then everyone will go to the SelectRestPage.
-
+// Page after name addition that shows current group members and message saying that you are waiting for the group leader to start the session
+// needs to subscribe to start session column for their group row
 import { useLocalSearchParams, router } from "expo-router";
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, Dimensions } from "react-native";
@@ -10,30 +8,50 @@ import { supabase } from "./index";
 const GroupMembersComponent = () => {
   const params = useLocalSearchParams();
   const [groupMembers, setGroupMembers] = useState([]);
+  const [sessionStarted, setSessionStarted] = useState(false);
   const groupCode = params.group_code;
 
   const handleRecordUpdated = (payload) => {
     setGroupMembers(payload.new.group_members);
+    setSessionStarted(payload.new.session_active);
   };
 
-  const handleSessionStart = async () => {
+  const handleLeaveGroup = async () => {
     try {
+      let { data, error } = await supabase
+        .from("groups")
+        .select("*")
+        .textSearch("group_code", groupCode)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      // Remove the member with the given id
+      const updatedGroupMembers = data.group_members.filter(
+        (member) => member.id.toString() !== params.id
+      );
+
+      // Update the ids of the remaining members
+      updatedGroupMembers.forEach((member, index) => {
+        member.id = index;
+      });
+
+      // Update the group members in the database
       const { error: updateError } = await supabase
         .from("groups")
-        .update({ session_active: true })
+        .update({ group_members: updatedGroupMembers })
         .textSearch("group_code", groupCode);
 
       if (updateError) {
         throw updateError;
       }
 
+      console.log("Successfully left group!");
+
       router.push({
-        pathname: "/SelectRestPage",
-        params: {
-          group_code: params.group_code,
-          group_name: params.group_name,
-          id: params.id,
-        },
+        pathname: "/JoinSessionScreen",
       });
     } catch (error) {
       console.error("Error:", error.message);
@@ -57,6 +75,19 @@ const GroupMembersComponent = () => {
   }, []);
 
   useEffect(() => {
+    if (sessionStarted == true) {
+      router.push({
+        pathname: "/SelectRestPage",
+        params: {
+          group_code: params.group_code,
+          group_name: params.group_name,
+          id: params.id,
+        },
+      });
+    }
+  }, [sessionStarted]);
+
+  useEffect(() => {
     // Fetch data on initial load
     const fetchData = async () => {
       const response = await supabase
@@ -71,12 +102,11 @@ const GroupMembersComponent = () => {
   return (
     <View>
       <Text>Group Members:</Text>
-      <Text>{params.group_code}</Text>
       {groupMembers.map((member, index) => (
         <Text key={index}>{member.name}</Text>
       ))}
-      <Text>{params.group_code}</Text>
-      <Button title="Start Session" onPress={handleSessionStart}></Button>
+
+      <Button title="Leave Group" onPress={handleLeaveGroup}></Button>
     </View>
   );
 };

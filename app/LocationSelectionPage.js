@@ -11,6 +11,7 @@ import MapView, { Circle, Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Modal from "react-native-modal";
 import { useLocalSearchParams, router, Stack } from "expo-router";
+import { supabase } from "./index";
 
 const MapWithRadius = () => {
   const [region, setRegion] = useState(null);
@@ -46,25 +47,46 @@ const MapWithRadius = () => {
     // Any other action you want to perform with the selected center and radius
   };
 
-  const handleConfirmMap = () => {
-    console.log("Final Latitude:", center.latitude);
-    console.log("Final Longitude:", center.longitude);
-    console.log("Radius:", radius);
-    router.push({
-      pathname: "/StartSessionPage",
-      params: {
-        group_code: params.group_code,
-        group_name: params.group_name,
-        leader_name: params.leader_name,
-        latitude: center.latitude,
-        longitude: center.longitude,
-        radius: radius,
-      },
-    });
+  const handleConfirmMap = async () => {
+    try {
+      const { data, error } = await supabase.from("groups").insert([
+        {
+          group_name: params.group_name,
+          group_code: params.group_code,
+          group_members: [
+            { id: 0, name: params.leader_name, liked: [], disliked: [] },
+          ],
+          session_active: false,
+          latitude: center.latitude,
+          longitude: center.longitude,
+          radius: radius,
+        },
+      ]);
+
+      if (error) {
+        throw error;
+      }
+
+      console.log("Group created!");
+      router.push({
+        pathname: "/StartSessionPage",
+        params: {
+          group_code: params.group_code,
+          group_name: params.group_name,
+          leader_id: "0",
+          latitude: center.latitude,
+          longitude: center.longitude,
+          radius: radius,
+        },
+      });
+
+      // Redirect to session screen or handle navigation as needed
+    } catch (error) {
+      console.error("Error creating group:", error.message);
+    }
   };
 
   const handleRadiusInputChange = (text) => {
-    console.log(text);
     if (!isNaN(text)) {
       setInputRadius(text);
       setRadius(parseInt(text, 10));

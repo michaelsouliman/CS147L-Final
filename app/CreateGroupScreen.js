@@ -14,7 +14,7 @@ import { Stack, useLocalSearchParams, router } from "expo-router";
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function generateString(length) {
-  let result = " ";
+  let result = "";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -23,7 +23,7 @@ function generateString(length) {
   return result;
 }
 
-const CreateGroupScreen = ({ navigation }) => {
+const CreateGroupScreen = () => {
   const [groupName, setGroupName] = useState("");
   const [leaderName, setLeaderName] = useState("");
   const params = useLocalSearchParams();

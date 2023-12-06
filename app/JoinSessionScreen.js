@@ -1,6 +1,14 @@
 import { useLocalSearchParams, Stack, router } from "expo-router";
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Alert,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import { supabase } from "./index";
 
 const JoinSessionScreen = () => {
@@ -49,5 +57,23 @@ const JoinSessionScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  map: {
+    width: Dimensions.get("window").width * 0.8,
+    height: Dimensions.get("window").height * 0.8,
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+});
 
 export default JoinSessionScreen;
