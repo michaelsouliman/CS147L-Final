@@ -8,6 +8,7 @@ import {
   Alert,
   StyleSheet,
   Dimensions,
+  Pressable,
 } from "react-native";
 import { supabase } from "./index";
 
@@ -40,20 +41,23 @@ const JoinSessionScreen = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Stack.Screen
         options={{
           headerShown: true,
           title: params.title,
         }}
       />
-      <Text>Join a Session</Text>
+      <Text style={styles.text}>Join a Session</Text>
       <TextInput
         placeholder="Group Code"
         value={groupCode}
         onChangeText={(text) => setGroupCode(text)}
+        style={styles.input}
       />
-      <Button title="Join Session" onPress={joinSession} />
+      <Pressable style={styles.button} onPress={joinSession}>
+        <Text style={styles.buttonText}>Login To Session</Text>
+      </Pressable>
     </View>
   );
 };
@@ -63,17 +67,36 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#74a1b5", // Background color
+    padding: 20, // Add padding for spacing
   },
-  map: {
-    width: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.8,
+  text: {
+    fontSize: 20, // Increase text size
+    textAlign: "center", // Center align text
+    marginVertical: 10, // Add vertical margin for spacing
+    color: "white", // Optional: Change text color
   },
-  modalContainer: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
+  input: {
+    borderWidth: 1,
+    borderColor: "gray",
+    padding: 10,
+    fontSize: 18, // Increase font size
+    width: "80%", // Width relative to container
+    marginVertical: 10, // Add vertical margin
+    backgroundColor: "white", // Optional: Change input background
+  },
+  button: {
+    padding: 10,
+    backgroundColor: "#cde0c9",
     alignItems: "center",
+    justifyContent: "center",
+    width: "60%", // Width relative to container
+    borderRadius: 5,
+    marginVertical: 10, // Add vertical margin
+  },
+  buttonText: {
+    fontSize: 18, // Increase font size
+    color: "#333",
   },
 });
-
 export default JoinSessionScreen;

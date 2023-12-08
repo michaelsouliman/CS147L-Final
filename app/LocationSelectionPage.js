@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  Pressable,
 } from "react-native";
 import MapView, { Circle, Marker } from "react-native-maps";
 import * as Location from "expo-location";
@@ -96,9 +97,9 @@ const MapWithRadius = () => {
           title: params.group_name,
         }}
       />
-      <Text>
-        Drag around the marker to set your starting point and click on the
-        radius circle to set a new radius
+      <Text style={styles.text}>
+        Please wait until the map shows up. Then, drag around the marker to set
+        your starting point and click on the radius circle to set a new radius!
       </Text>
       {region && (
         <MapView
@@ -128,7 +129,7 @@ const MapWithRadius = () => {
 
       <Modal isVisible={confirmModalVisible}>
         <View style={styles.modalContainer}>
-          <Text>Enter Radius (in meters):</Text>
+          <Text style={styles.text}>Enter Radius (in meters):</Text>
           <TextInput
             style={styles.input}
             keyboardType="numeric"
@@ -136,10 +137,15 @@ const MapWithRadius = () => {
             onChangeText={handleRadiusInputChange}
             placeholder="Enter radius"
           />
-          <Button title="Confirm Radius" onPress={handleConfirmRadius} />
+          <Pressable style={styles.button} onPress={handleConfirmRadius}>
+            <Text style={styles.buttonText}>Confirm Radius</Text>
+          </Pressable>
         </View>
       </Modal>
-      <Button title="Confirm Map" onPress={handleConfirmMap}></Button>
+
+      <Pressable style={styles.button} onPress={handleConfirmMap}>
+        <Text style={styles.buttonText}>Confirm Map</Text>
+      </Pressable>
     </View>
   );
 };
@@ -149,10 +155,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#74a1b5",
+  },
+  text: {
+    fontSize: 18, // Increase font size
+    textAlign: "center", // Center text
+    marginVertical: 10, // Add vertical spacing
+    color: "black",
   },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height * 0.7,
+    height: Dimensions.get("window").height * 0.65,
   },
   modalContainer: {
     backgroundColor: "white",
@@ -160,13 +173,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
   },
-  input: {
-    height: 40,
-    width: 200,
-    borderColor: "gray",
-    borderWidth: 1,
+  button: {
+    backgroundColor: "#4a90e2",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 10,
-    paddingHorizontal: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
   },
 });
 

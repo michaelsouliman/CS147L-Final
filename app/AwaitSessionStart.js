@@ -1,8 +1,17 @@
 // Page after name addition that shows current group members and message saying that you are waiting for the group leader to start the session
 // needs to subscribe to start session column for their group row
+import { stopLocationUpdatesAsync } from "expo-location";
 import { useLocalSearchParams, router } from "expo-router";
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  Dimensions,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import { supabase } from "./index";
 
 const GroupMembersComponent = () => {
@@ -106,13 +115,18 @@ const GroupMembersComponent = () => {
   }, []);
 
   return (
-    <View>
-      <Text>Group Members:</Text>
-      {groupMembers.map((member, index) => (
-        <Text key={index}>{member.name}</Text>
-      ))}
-
-      <Button title="Leave Group" onPress={handleLeaveGroup}></Button>
+    <View style={styles.container}>
+      <Text style={styles.groupName}>Group Members:</Text>
+      <ScrollView style={styles.membersList}>
+        {groupMembers.map((member, index) => (
+          <Text key={index} style={styles.member}>
+            {member.name}
+          </Text>
+        ))}
+      </ScrollView>
+      <Pressable style={styles.button} onPress={handleLeaveGroup}>
+        <Text style={styles.buttonText}>Leave Group</Text>
+      </Pressable>
     </View>
   );
 };
@@ -122,16 +136,38 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  map: {
-    width: Dimensions.get("window").width * 0.8,
-    height: Dimensions.get("window").height * 0.8,
-  },
-  modalContainer: {
-    backgroundColor: "white",
     padding: 20,
-    borderRadius: 10,
+    backgroundColor: "#74a1b5",
+  },
+  groupName: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 10,
+    marginTop: 70,
+  },
+  groupCode: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  membersList: {
+    width: "100%",
+    marginBottom: 20,
+  },
+  member: {
+    fontSize: 26,
+    marginVertical: 5,
+  },
+  button: {
+    backgroundColor: "#4a90e2",
+    padding: 10,
+    borderRadius: 5,
     alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
   },
 });
 
