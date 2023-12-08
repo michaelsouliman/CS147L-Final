@@ -55,7 +55,6 @@ export default function SelectRestPage() {
     try {
       const response = await fetch(`${url}`, { headers });
       const data = await response.json();
-      console.log(data);
 
       const formatted = {
         name: data.name,
@@ -69,7 +68,6 @@ export default function SelectRestPage() {
         image_url: data.image_url,
         price: data.price,
       };
-      console.log(formatted);
       setRestaurantInfo(formatted);
     } catch (error) {
       console.error("Error fetching restaurant info:", error);
@@ -83,6 +81,9 @@ export default function SelectRestPage() {
     if (restaurantInfo !== null && restaurantInfo !== undefined) {
       setDisplayed(
         <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Here's Your Match!</Text>
+          </View>
           <View style={styles.restaurantInfoContainer}>
             <View style={styles.restaurantNameContainer}>
               <Text style={styles.restaurantName}>{restaurantInfo.name}</Text>
@@ -90,10 +91,12 @@ export default function SelectRestPage() {
             <View style={styles.restaurantRatingContainer}>
               <Text style={styles.restaurantRating}>
                 {restaurantInfo.rating}/5 ({restaurantInfo.review_count})
+                {"    "}
+                {restaurantInfo.price}
               </Text>
             </View>
             <View style={styles.restaurantCategoriesContainer}>
-              <Text style={styles.restaurantRating}>
+              <Text style={styles.restaurantCategories}>
                 {restaurantInfo.categories}
               </Text>
             </View>
@@ -109,12 +112,12 @@ export default function SelectRestPage() {
                 kilometers away
               </Text>
             </View>
-            <View style={styles.restaurantDistanceContainer}>
-              <Text style={styles.restaurantDistance}>
+            <View style={styles.restaurantAddressContainer}>
+              <Text style={styles.restaurantAddress}>
                 {restaurantInfo.address}
               </Text>
             </View>
-            <View style={styles.restaurantDistanceContainer}>
+            <View style={styles.restaurantImageContainer}>
               <Image
                 style={styles.restaurantImage}
                 source={{ uri: restaurantInfo.image_url }}
@@ -134,7 +137,6 @@ export default function SelectRestPage() {
         .textSearch("group_code", params.group_code);
 
       let id = response.data[0].all_liked;
-      console.log(id);
       fetchRestaurantInfo(id, apiKey);
     };
     fetchData();
@@ -153,15 +155,68 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#74a1b5",
+    width: "100%",
   },
   restaurantInfoContainer: {
     margin: 10,
     top: 20,
-    backgroundColor: "orange",
+    backgroundColor: "#508991",
     width: Dimensions.get("window").width * 0.9,
     height: Dimensions.get("window").height * 0.65,
     borderRadius: 20,
-    padding: 5,
+    padding: 10,
+    flexDirection: "column",
+  },
+  restaurantNameContainer: {
+    flex: 2.8,
+    left: 10,
+  },
+  restaurantName: {
+    color: "white",
+    fontSize: 48,
+    fontWeight: "bold",
+  },
+  restaurantRatingContainer: {
+    flex: 0.6,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantCategoriesContainer: {
+    flex: 1.2,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantDistanceContainer: {
+    flex: 0.6,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantAddressContainer: {
+    flex: 0.6,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantRating: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  restaurantCategories: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    width: "80%",
+    flexWrap: "wrap",
+  },
+  restaurantDistance: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  restaurantAddress: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   userInputButtons: {
     top: 20,
@@ -198,8 +253,44 @@ const styles = StyleSheet.create({
     width: "70%",
     aspectRatio: 1,
   },
-  restaurantImage: {
+  restaurantImageContainer: {
     width: "100%",
-    height: "70%",
+    height: "50%",
+    flex: 6,
+    alignItems: "center",
+    justifyContent: "center",
+    bottom: 10,
+    padding: 10,
+  },
+  restaurantImage: {
+    width: "90%",
+    height: "100%",
+  },
+  restaurantImageContainer: {
+    width: "100%",
+    height: "50%",
+    flex: 6,
+    alignItems: "center",
+    justifyContent: "center",
+    bottom: 10,
+    padding: 10,
+  },
+  restaurantImage: {
+    width: "90%",
+    height: "100%",
+  },
+  header: {
+    height: "10%",
+    width: "100%",
+    backgroundColor: "#508991",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 30,
+    width: "90%",
+  },
+  headerText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#ffffff",
   },
 });

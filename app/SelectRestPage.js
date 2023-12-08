@@ -139,10 +139,12 @@ export default function SelectRestPage() {
             <View style={styles.restaurantRatingContainer}>
               <Text style={styles.restaurantRating}>
                 {restList[curRest].rating}/5 ({restList[curRest].review_count})
+                {"    "}
+                {restList[curRest].price}
               </Text>
             </View>
             <View style={styles.restaurantCategoriesContainer}>
-              <Text style={styles.restaurantRating}>
+              <Text style={styles.restaurantCategories}>
                 {restList[curRest].categories}
               </Text>
             </View>
@@ -158,12 +160,12 @@ export default function SelectRestPage() {
                 kilometers away
               </Text>
             </View>
-            <View style={styles.restaurantDistanceContainer}>
-              <Text style={styles.restaurantDistance}>
+            <View style={styles.restaurantAddressContainer}>
+              <Text style={styles.restaurantAddress}>
                 {restList[curRest].address}
               </Text>
             </View>
-            <View style={styles.restaurantDistanceContainer}>
+            <View style={styles.restaurantImageContainer}>
               <Image
                 style={styles.restaurantImage}
                 source={{ uri: restList[curRest].image_url }}
@@ -246,11 +248,63 @@ const styles = StyleSheet.create({
   restaurantInfoContainer: {
     margin: 10,
     top: 20,
-    backgroundColor: "orange",
+    backgroundColor: "#508991",
     width: Dimensions.get("window").width * 0.9,
     height: Dimensions.get("window").height * 0.65,
     borderRadius: 20,
-    padding: 5,
+    padding: 10,
+    flexDirection: "column",
+  },
+  restaurantNameContainer: {
+    flex: 2.8,
+    left: 10,
+  },
+  restaurantName: {
+    color: "white",
+    fontSize: 48,
+    fontWeight: "bold",
+  },
+  restaurantRatingContainer: {
+    flex: 0.6,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantCategoriesContainer: {
+    flex: 1.2,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantDistanceContainer: {
+    flex: 0.6,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantAddressContainer: {
+    flex: 0.6,
+    bottom: 2,
+    left: 10,
+  },
+  restaurantRating: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  restaurantCategories: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    width: "80%",
+    flexWrap: "wrap",
+  },
+  restaurantDistance: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  restaurantAddress: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   userInputButtons: {
     top: 20,
@@ -287,8 +341,17 @@ const styles = StyleSheet.create({
     width: "70%",
     aspectRatio: 1,
   },
-  restaurantImage: {
+  restaurantImageContainer: {
     width: "100%",
-    height: "70%",
+    height: "50%",
+    flex: 6,
+    alignItems: "center",
+    justifyContent: "center",
+    bottom: 10,
+    padding: 10,
+  },
+  restaurantImage: {
+    width: "90%",
+    height: "100%",
   },
 });

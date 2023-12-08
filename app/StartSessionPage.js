@@ -83,6 +83,7 @@ const GroupMembersComponent = () => {
       <Text style={styles.groupName}>Group Name: {params.group_name}</Text>
 
       <Text style={styles.groupCode}>Group Code: {params.group_code}</Text>
+      <Text style={styles.groupName}>Group Members:</Text>
       <ScrollView style={styles.membersList}>
         {groupMembers.map((member, index) => (
           <Text key={index} style={styles.member}>
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: 70,
+    textAlign: "center",
   },
   groupCode: {
     fontSize: 28,

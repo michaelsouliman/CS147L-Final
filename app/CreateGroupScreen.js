@@ -54,7 +54,7 @@ const CreateGroupScreen = () => {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: params.title,
+          title: "Create Group",
         }}
       />
       <Text style={styles.text}>Create a Group</Text>

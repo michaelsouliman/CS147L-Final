@@ -14,7 +14,14 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.headerSpacer} />
       <View style={styles.header}>
-        <Text style={styles.headerText}>We Choose</Text>
+        <Text style={styles.headerText}>Our Pick</Text>
+      </View>
+      <View style={styles.desc}>
+        <Text style={styles.descText}>Figure out where to eat!</Text>
+        <Text style={styles.descText}>
+          Each session is unique and only happens once, any choices you make
+          this session will not impact recommendations in future sessions.
+        </Text>
       </View>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonWrapper}>
@@ -71,9 +78,25 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   headerText: {
+    fontSize: 48,
+    fontWeight: "bold",
+    color: "#ffffff",
+  },
+  desc: {
+    height: "30%",
+    width: "100%",
+    backgroundColor: "#508991",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 30,
+    margin: 30,
+  },
+  descText: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#ffffff",
+    textAlign: "center",
+    margin: 2,
   },
   buttonContainer: {
     flex: 1,

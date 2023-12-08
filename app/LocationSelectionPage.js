@@ -95,6 +95,7 @@ const MapWithRadius = () => {
         options={{
           headerShown: true,
           title: params.group_name,
+          headerBackTitle: "Login",
         }}
       />
       <Text style={styles.text}>
@@ -129,7 +130,7 @@ const MapWithRadius = () => {
 
       <Modal isVisible={confirmModalVisible}>
         <View style={styles.modalContainer}>
-          <Text style={styles.text}>Enter Radius (in meters):</Text>
+          <Text style={styles.modalText}>Enter Radius (in meters):</Text>
           <TextInput
             style={styles.input}
             keyboardType="numeric"
@@ -161,11 +162,23 @@ const styles = StyleSheet.create({
     fontSize: 18, // Increase font size
     textAlign: "center", // Center text
     marginVertical: 10, // Add vertical spacing
-    color: "black",
+    color: "white",
+    top: -10,
+    width: "90%",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "gray",
+    padding: 10,
+    fontSize: 18, // Increase font size
+    width: "80%", // Width relative to container
+    marginVertical: 10, // Add vertical margin
+    backgroundColor: "white", // Optional: Change input background
   },
   map: {
-    width: Dimensions.get("window").width,
+    width: Dimensions.get("window").width * 0.9,
     height: Dimensions.get("window").height * 0.65,
+    borderRadius: 10,
   },
   modalContainer: {
     backgroundColor: "white",
@@ -173,6 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
   },
+  modalText: { fontSize: 18, color: "black" },
   button: {
     backgroundColor: "#4a90e2",
     padding: 10,

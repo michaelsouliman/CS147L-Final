@@ -45,7 +45,7 @@ const JoinSessionScreen = () => {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: params.title,
+          title: "Join Session",
         }}
       />
       <Text style={styles.text}>Join a Session</Text>
